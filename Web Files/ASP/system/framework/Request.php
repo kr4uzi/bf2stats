@@ -288,6 +288,14 @@ class Request
     }
 
     /**
+     * @return bool
+     */
+    public static function IsLocalHost()
+    {
+        return in_array(Request::ClientIp(), array('127.0.0.1', '::1'));
+    }
+
+    /**
      * Returns the whether the request is an ajax request
      *
      * @return bool If the request is an ajax request

@@ -156,8 +156,10 @@ class System
         // Then register error handler
         ErrorHandler::Register(true, true);
 
+        $isLocalHost = Request::IsLocalHost();
+
         // Next, Lets make sure the IP can view the ASP
-        if (!Security::IsAuthorizedIp(Request::ClientIp())) {
+        if (!$isLocalHost && !Security::IsAuthorizedIp(Request::ClientIp())) {
             die('<span style="color: red; ">ERROR:</span> You are NOT Authorised to access this Page! (Ip: ' . Request::ClientIp() . ')');
         }
 
@@ -182,19 +184,27 @@ class System
         // Check and see if the user is logged in
         if (!Security::IsValidSession())
         {
-            // Check for an ajax request, and answer accordingly
-            if (Request::IsAjax())
+            if ($isLocalHost)
             {
-                // Respond in a commonly expected format for this admin panel and DataTables
-                $message = "Login session has expired! Please refresh the page and login again.";
-                echo json_encode(['success' => false, 'message' => $message, 'error' => $message]);
+                // allow localhost to bypass login
+                Security::Login(Config::Get('admin_user'), Config::Get('admin_pass'));
             }
             else
             {
-                $view = new View('login');
-                $view->render(false);
+                // Check for an ajax request, and answer accordingly
+                if (Request::IsAjax())
+                {
+                    // Respond in a commonly expected format for this admin panel and DataTables
+                    $message = "Login session has expired! Please refresh the page and login again.";
+                    echo json_encode(['success' => false, 'message' => $message, 'error' => $message]);
+                }
+                else
+                {
+                    $view = new View('login');
+                    $view->render(false);
+                }
+                return;
             }
-            return;
         }
 
         // Create the required log writer for the ASP

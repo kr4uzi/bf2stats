@@ -100,10 +100,6 @@ class Security
      */
     public static function IsAuthorizedIp($ip)
     {
-        if ($ip == $_SERVER['REMOTE_ADDR']) {
-            return true;
-        }
-
         $hosts = Config::Get('admin_hosts');
         return IPAddress::IsInCIDR($ip, $hosts);
     }

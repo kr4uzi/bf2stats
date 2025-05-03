@@ -28,9 +28,9 @@
                     </div>
                 </div>
                 <div class="mws-form-row">
-                    <label class="mws-form-label">Admin IP Whitelist <span class="required">*</span></label>
+                    <label class="mws-form-label">Admin IP Whitelist</label>
                     <div class="mws-form-item">
-                        <textarea name="cfg__admin_hosts" rows="" cols="" class="required large autosize">{ip_list}</textarea>
+                        <textarea name="cfg__admin_hosts" rows="" cols="" class="large autosize">{ip_list}</textarea>
                     </div>
                 </div>
             </fieldset>

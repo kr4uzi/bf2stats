@@ -8,10 +8,10 @@
 ***************************************/
 $admin_user = 'admin';
 $admin_pass = 'admin';
-$admin_hosts = array('0.0.0.0/0');
+$admin_hosts = array();
 $admin_ignore_ai = 1;
-$admin_last_login = 1746295011;
-$admin_current_login = 1746297189;
+$admin_last_login = 1746308294;
+$admin_current_login = 1746308548;
 $admin_timezone = 'Europe/Zurich';
 $debug_lvl = 4;
 $db_host = '127.0.0.1';
