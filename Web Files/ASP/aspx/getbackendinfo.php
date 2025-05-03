@@ -54,8 +54,21 @@ if ($expireTime > 0)
 
 // Prepare response
 $Response = new AspResponse();
-$Response->writeHeaderLine("ver", "now");
-$Response->writeDataLine("0.1", time());
+
+$ipAddr = Request::ClientIp();
+$stmt = $connection->query("SELECT EXISTS(SELECT * FROM `stats_provider_auth_ip` WHERE `address`='{$ipAddr}' LIMIT 1)", \PDO::FETCH_NUM);
+$isRanked = $stmt->fetch()[0] == '1';
+
+if ($isRanked)
+{
+    $Response->writeHeaderLine("ver", "rnk", "now");
+    $Response->writeDataLine("0.1", "1", time());
+}
+else
+{
+    $Response->writeHeaderLine("ver", "now");
+    $Response->writeDataLine("0.1", time());
+}
 $Response->writeHeaderLine("id", "kit", "name", "descr");
 
 // fetch all unlocks from the database
